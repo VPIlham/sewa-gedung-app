@@ -4,12 +4,7 @@ const { users } = require("../models");
 class LandingController {
   static async home(req, res) {
     try {
-      //   const data = await brands.findAll({
-      //     order: [["id", "ASC"]],
-      //   });
-      // return res.render("index.ejs", { result: data });
-
-      return res.render("index.ejs");
+      return res.render("user/home.ejs");
     } catch (error) {
       res.json(error);
     }
@@ -35,10 +30,9 @@ class LandingController {
 
       if (result) {
         if (decryptPass(password, result.password)) {
-          res.status(200).json(result);
-          res.redirect("/");
+          return res.json(result);
         } else {
-          res.status(403).json({
+          return res.status(403).json({
             message: "Email/Password Anda salah!",
           });
         }
@@ -54,6 +48,7 @@ class LandingController {
 
   static async register(req, res) {
     try {
+      return res.render("register.ejs");
     } catch (error) {
       res.json(error);
     }

@@ -1,6 +1,6 @@
 const route = require("express").Router();
 
-route.get("/home", (req, res) => {
+route.get("/", (req, res) => {
   res.render("index.ejs");
 });
 
