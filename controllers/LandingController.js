@@ -1,10 +1,15 @@
 const { encryptPass, decryptPass } = require("../helpers/bcrypt");
-const { users } = require("../models");
+const { users, gedung } = require("../models");
 
 class LandingController {
   static async home(req, res) {
     try {
-      return res.render("user/home.ejs");
+      let data = await gedung.findAll({
+        order: [["id", "ASC"]],
+      });
+
+      // res.json(data);
+      return res.render("user/home.ejs", { result: data });
     } catch (error) {
       res.json(error);
     }
@@ -77,6 +82,17 @@ class LandingController {
   static async detailGedung(req, res) {
     try {
       const id = Number(req.params.id);
+
+      let data;
+
+      await gedung
+        .findByPk(id)
+        .then((results) => {
+          data = results.dataValues;
+        })
+        .catch((err) => console.log(err));
+
+      return res.render("user/gedung/detail.ejs", { result: data });
     } catch (error) {
       res.json(error);
     }

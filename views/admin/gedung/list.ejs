@@ -1,0 +1,86 @@
+<%- include('../../navbar_admin') %>
+
+<div class="row justify-content-center mt-5">
+  <div class="col-md-9">
+    <a href="/admin/gedung/tambah" class="btn btn-success"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-file-earmark-plus"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"
+        ></path>
+        <path
+          d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"
+        ></path>
+      </svg>
+      Tambah Data</a
+    >
+    <!-- <div class="row mt-3">
+      <form action="" method="post" class="col-4">
+        <div class="row">
+          <div class="col-9">
+            <input type="text" name="search" class="form-control" />
+          </div>
+          <div class="col">
+            <input type="submit" value="Cari" class="btn btn-primary w-100" />
+          </div>
+        </div>
+      </form>
+    </div> -->
+    <table class="table table-striped table-hover" id="mytable">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Nama</th>
+          <th scope="col">Harga</th>
+          <th scope="col">Gambar</th>
+          <th scope="col">Kota</th>
+          <th scope="col">Jam</th>
+          <th scope="col">Status</th>
+          <th scope="col">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% result.forEach((gedung, i) => { %>
+        <tr>
+          <th scope="row"><%= i + 1 %></th>
+          <td class="text-capitalize"><%= gedung.name %></td>
+          <td class="text-lowercase"><%= gedung.harga %></td>
+          <td class="text-capitalize">
+            <img
+              src="/<%= gedung.img %>"
+              alt=""
+              style="width: 70px; height: 70px; object-fit: cover"
+            />
+          </td>
+          <td class="text-uppercase"><%= gedung.kota %></td>
+          <td class="text-capitalize">
+            Siang : <%= gedung.jam_siang %> - <%= gedung.jam_siang_akhir %>
+            <br />
+            Malam : <%= gedung.jam_malam %> - <%= gedung.jam_malam_akhir %>
+          </td>
+          <td class="text-capitalize"><%= gedung.status %></td>
+          <td>
+            <a
+              href="/admin/gedung/edit/<%= gedung.id %>"
+              class="badge text-bg-primary text-decoration-none"
+              >Edit</a
+            >
+            |
+            <a
+              href="/admin/gedung/hapus/<%= gedung.id %>"
+              class="badge text-bg-danger text-decoration-none"
+              >Hapus</a
+            >
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

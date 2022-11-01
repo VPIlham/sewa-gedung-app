@@ -1,0 +1,32 @@
+<%- include('../../navbar_user') %>
+
+<div class="row justify-content-center mt-5">
+  <div class="col-md-7 mb-5">
+    <div class="card">
+      <img src="/<%= result.img %>" alt="" srcset="" style="width: 100%" />
+      <div class="card-body">
+        <h3 class="text-capitalize"><%= result.name %></h3>
+        <br />
+        <p>
+          <span>Alamat : <%= result.alamat %></span>
+          <br />
+          <span>Fasilitas : <%= result.fasilitas %></span>
+          <br />
+          <span>Kota : <%= result.kota %></span>
+          <br />
+          <span
+            >Tersedia Jam :
+            <ul>
+              <li>
+                Siang : <%= result.jam_siang %> - <%= result.jam_siang_akhir %>
+              </li>
+              <li>
+                Malam : <%= result.jam_malam %> - <%= result.jam_malam_akhir %>
+              </li>
+            </ul></span
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
