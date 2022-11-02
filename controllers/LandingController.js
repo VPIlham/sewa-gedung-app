@@ -1,5 +1,6 @@
+const { json } = require("sequelize");
 const { encryptPass, decryptPass } = require("../helpers/bcrypt");
-const { users, gedung } = require("../models");
+const { users, gedung, pemesanan, pemesanan_gedung } = require("../models");
 
 class LandingController {
   static async home(req, res) {
@@ -93,6 +94,77 @@ class LandingController {
         .catch((err) => console.log(err));
 
       return res.render("user/gedung/detail.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
+  static async addPesanan(req, res) {
+    try {
+      const {
+        gedungId,
+        usersId,
+        nama_pemesan,
+        nama_gedung,
+        nomor_hp,
+        typeBayar,
+        harga,
+        sewaTgl,
+        sewaJam,
+        sewaWaktu,
+        status,
+        no_ktp,
+      } = req.body;
+
+      console.log(
+        `Nama Pemesan = ${nama_pemesan}, Gedung ID = ${gedungId}, nama gedung ${nama_gedung}, User Id = ${usersId}, Type Bayar = ${typeBayar}, Harga = ${harga}, Sewa Tgl = ${sewaTgl}, Sewa Jam = ${sewaJam}, status = ${status} `
+      );
+
+      const date = new Date();
+      const components = [
+        date.getYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds(),
+      ];
+
+      const randomUid = components.join("");
+      const kode_transaksi = `TRX-${randomUid}`;
+
+      return await pemesanan
+        .create({
+          kode_transaksi,
+          gedungId,
+          usersId,
+          typeBayar,
+          harga,
+        })
+        .then(async (result) => {
+          const { id } = result.dataValues;
+          await pemesanan_gedung
+            .create({
+              pemesananId: id,
+              gedungId,
+              kode_transaksi,
+              nama_pemesan,
+              nama_gedung,
+              nomor_hp,
+              no_ktp,
+              total_harga: harga,
+              typeBayar,
+              status,
+              sewaTgl,
+              sewaJam,
+              sewaWaktu,
+            })
+            .then((resultPG) => {
+              return res.status(201).json(resultPG);
+            })
+            .catch((err) => res.json(err));
+        });
     } catch (error) {
       res.json(error);
     }

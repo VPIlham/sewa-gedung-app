@@ -6,13 +6,15 @@
       <img src="/<%= result.img %>" alt="" srcset="" style="width: 100%" />
       <div class="card-body">
         <h3 class="text-capitalize"><%= result.name %></h3>
-        <br />
+        <h5 class="text-capitalize">Rp<%= result.harga %></h5>
+
         <p>
           <span>Alamat : <%= result.alamat %></span>
           <br />
+          <span>Kota : <%= result.kota %></span>
+          <br />
           <span>Fasilitas : <%= result.fasilitas %></span>
           <br />
-          <span>Kota : <%= result.kota %></span>
           <br />
           <span
             >Tersedia Jam :
@@ -26,7 +28,187 @@
             </ul></span
           >
         </p>
+        <hr />
+        <h3>Pemesanan</h3>
+        <form id="pemesananForm">
+          <div class="form-group mb-2">
+            <label for="exampleInputEmail1">Nama Pemesan</label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              name="nama_pemesan"
+              id="inputNama"
+              required
+            />
+          </div>
+          <div class="form-group mb-2">
+            <label for="exampleInputEmail1">Nomor KTP</label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              name="no_ktp"
+              maxlength="16"
+              id="no_ktp"
+              required
+            />
+          </div>
+          <div class="form-group mb-2">
+            <label for="exampleInputEmail1">Nomor Telp</label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              id="inputNomor"
+              name="nomor_hp"
+              required
+            />
+          </div>
+          <div class="form-group mb-2">
+            <label for="exampleInputEmail1">Tgl Sewa</label>
+            <input
+              type="date"
+              class="form-control mt-2"
+              name="sewaTgl"
+              id="sewaTgl"
+            />
+          </div>
+          <div class="form-group mb-2">
+            <label for="exampleInputEmail1">Pilih Jam </label>
+            <br />
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="sewaWaktu"
+                id="sewaWaktu1"
+                value="siang"
+              />
+              <label class="form-check-label" for="jk1">Siang</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="sewaWaktu"
+                id="sewaWaktu2"
+                value="malam"
+              />
+              <label class="form-check-label" for="jk2">Malam</label>
+            </div>
+          </div>
+          <div class="form-group mb-4">
+            <label for="exampleInputEmail1">Pilih Pembayaran </label>
+            <select class="form-select mt-2" name="typeBayar" id="typeBayar">
+              <option value="dp">DP</option>
+              <option value="lunas">Lunas</option>
+            </select>
+          </div>
+          <div class="form-group mb-3">
+            <h6 style="float: left">Total Harga</h6>
+            <h6 style="float: right" id="totalHarga">Rp.0</h6>
+          </div>
+          <input
+            class="mt-3 btn btn-success w-100"
+            type="submit"
+            id="submitForm"
+            value="Pesan Sekarang"
+          />
+          <br />
+
+          <a href="/home" class="btn btn-primary w-100 mt-3">Kembali</a>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  $(function () {
+    let user = JSON.parse(localStorage.getItem("user"));
+
+    let harga = `<%= result.harga %>`;
+    let gedungId = `<%= result.id %>`;
+    let namaGedung = `<%= result.name %>`;
+    let usersId = user["id"];
+    let nomor_hp = user["nomor_hp"];
+    let calcDP = harga * 0.25;
+    let jam_siang = `<%= result.jam_siang %> - <%= result.jam_siang_akhir %> `;
+    let jam_malam = `<%= result.jam_malam %> - <%= result.jam_malam_akhir %>`;
+
+    let no_ktp, sewaJam, sewaTgl, valSewaWaktu, total_harga, nama_pemesan;
+
+    //set value
+    $("#inputNama").val(user["name"]);
+    $("#inputNomor").val(user["nomor_hp"]);
+
+    let typeBayar = $("#typeBayar").val();
+
+    if (typeBayar === "dp") {
+      $("#totalHarga").text(`Rp${calcDP}`);
+      total_harga = calcDP;
+    }
+
+    $("#typeBayar").click(function () {
+      typeBayar = $("#typeBayar").val();
+      if (typeBayar === "dp") {
+        $("#totalHarga").text(`Rp${calcDP}`);
+        total_harga = calcDP;
+      } else {
+        $("#totalHarga").text(`Rp${harga}`);
+        total_harga = harga;
+      }
+    });
+
+    $("#pemesananForm").submit(function (event) {
+      event.preventDefault();
+
+      no_ktp = $("#no_ktp").val();
+      sewaJam = $('input[name="sewaWaktu"]:checked').val();
+      sewaTgl = $("#sewaTgl").val();
+      nama_pemesan = $("#inputNama").val();
+
+      if (sewaJam == "siang") {
+        valSewaWaktu = jam_siang;
+      } else {
+        valSewaWaktu = jam_malam;
+      }
+      console.log("TOTAL HARGA = ", total_harga);
+      $.ajax({
+        url: "/pemesanan/create",
+        method: "POST",
+        data: {
+          gedungId: gedungId,
+          usersId: usersId,
+          typeBayar: typeBayar,
+          harga: total_harga,
+          nama_gedung: namaGedung,
+          nomor_hp: nomor_hp,
+          sewaTgl: sewaTgl,
+          sewaJam: sewaJam,
+          sewaWaktu: valSewaWaktu,
+          no_ktp: no_ktp,
+          status: "belum_dibayar",
+          nama_pemesan: nama_pemesan,
+        },
+        success: function (data) {
+          console.log(data);
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Pemesanan Berhasil dibuat!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              return (window.location.href = "/pemesanan/");
+            }
+          });
+        },
+        error: function () {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal",
+            text: "Data Pemesanan Gagal",
+          });
+        },
+      });
+    });
+  });
+</script>
