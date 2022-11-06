@@ -99,6 +99,91 @@ class LandingController {
     }
   }
 
+  static async listPesanan(req, res) {
+    try {
+      const id = +req.query.usersId;
+
+      let data = await pemesanan_gedung.findAll({
+        attributes: [
+          "id",
+          "kode_transaksi",
+          "nama_gedung",
+          "nomor_hp",
+          "sewaTgl",
+          "sewaJam",
+          "sewaWaktu",
+          "total_harga",
+          "typeBayar",
+          "status",
+        ],
+        order: [["id", "ASC"]],
+        where: { usersId: id },
+      });
+      return res.render("user/transaksi/list_transaksi.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
+  static async DetailPesanan(req, res) {
+    try {
+      const id = +req.params.id;
+
+      let data = await pemesanan_gedung.findOne({
+        attributes: [
+          "id",
+          "usersId",
+          "kode_transaksi",
+          "nama_gedung",
+          "sewaTgl",
+          "sewaJam",
+          "sewaWaktu",
+          "total_harga",
+          "typeBayar",
+          "status",
+          "img",
+          "bank",
+        ],
+        order: [["id", "ASC"]],
+        where: { id: id },
+      });
+      // return res.json(data);
+      return res.render("user/transaksi/detail.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
+  static async updatePesanan(req, res) {
+    try {
+      const id = +req.params.id;
+
+      const { bank, usersId } = req.body;
+
+      const img =
+        req.file == undefined ? null : req.file.path.replace(/\\/g, "/");
+
+      const myData = {
+        bank,
+        img,
+        status: "diproses",
+      };
+
+      console.log(
+        `MY DATA UPDATE = ${bank}, img = ${img}, ID = ${id}, usersId = ${usersId}`
+      );
+
+      await pemesanan_gedung
+        .update(myData, { where: { id: id } })
+        .then((_) => {
+          return res.redirect(`/pemesanan?usersId=${+usersId}`);
+        })
+        .catch((err) => res.json(err));
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
   static async addPesanan(req, res) {
     try {
       const {
@@ -148,6 +233,7 @@ class LandingController {
             .create({
               pemesananId: id,
               gedungId,
+              usersId,
               kode_transaksi,
               nama_pemesan,
               nama_gedung,

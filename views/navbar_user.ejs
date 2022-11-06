@@ -15,9 +15,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link" aria-current="page" href="/">Home</a>
-        <a class="nav-link" href="/pesanan">Pesanan Saya</a>
-        <a class="nav-link" onclick="logout()" style="cursor: pointer"
+        <a class="nav-link" aria-current="page" href="/home">Home</a>
+        <a
+          class="nav-link"
+          onclick="goToLogin()"
+          id="navbar-login"
+          style="cursor: pointer"
+          >Login</a
+        >
+        <a
+          class="nav-link"
+          onclick="goToPesanan()"
+          id="navbar-pesanan"
+          style="cursor: pointer"
+          >Pesanan Saya</a
+        >
+        <a
+          class="nav-link"
+          onclick="logout()"
+          id="navbar-logout"
+          style="cursor: pointer"
           >Logout</a
         >
       </div>
@@ -26,8 +43,23 @@
 </nav>
 
 <script>
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  if (user == null) {
+    $("#navbar-pesanan").hide();
+    $("#navbar-logout").hide();
+  } else {
+    $("#navbar-login").hide();
+  }
+
   function logout() {
     localStorage.removeItem("user");
     window.location.href = "/";
+  }
+  function goToLogin() {
+    window.location.href = "/login";
+  }
+  function goToPesanan() {
+    window.location.href = `/pemesanan?usersId=${usersId}`;
   }
 </script>

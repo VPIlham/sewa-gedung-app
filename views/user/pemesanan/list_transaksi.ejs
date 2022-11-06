@@ -1,0 +1,46 @@
+<%- include('../../navbar_user') %>
+
+<div class="row justify-content-center mt-5">
+  <div class="col-md-9">
+    <table class="table table-striped table-hover" id="mytable">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Kode Transaksi</th>
+          <th scope="col">Nama Gedung</th>
+          <th scope="col">Nomor HP</th>
+          <th scope="col">Sewa Tgl</th>
+          <th scope="col">Sewa Jam</th>
+          <th scope="col">Tipe Pembayaran</th>
+          <th scope="col">Total Pembayaran</th>
+          <th scope="col">Status Pembayaran</th>
+          <th scope="col">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% result.forEach((pesanan, i) => { %>
+        <tr>
+          <th scope="row"><%= i + 1 %></th>
+          <td class="text-capitalize"><%= pesanan.kode_transaksi %></td>
+          <td><%= pesanan.nama_gedung%></td>
+          <td class="text-capitalize"><%= pesanan.nomor_hp %></td>
+          <td><%= new Date(pesanan.sewaTgl).toLocaleDateString("id") %></td>
+          <td class="text-capitalize">
+            <%= pesanan.sewaJam %> : <%= pesanan.sewaWaktu %>
+          </td>
+          <td class="text-capitalize"><%= pesanan.typeBayar %></td>
+          <td class="text-capitalize"><%= pesanan.total_harga %></td>
+          <td class="text-capitalize"><%= pesanan.status %></td>
+          <td>
+            <a
+              href="/pemesanan/<%= pesanan.id %>"
+              class="badge text-bg-primary text-decoration-none"
+              >Detail</a
+            >
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>

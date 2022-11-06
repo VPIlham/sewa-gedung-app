@@ -1,4 +1,4 @@
-const { users, gedung } = require("../models");
+const { users, gedung, pemesanan_gedung } = require("../models");
 const fs = require("fs");
 class AdminController {
   static async home(req, res) {
@@ -15,6 +15,117 @@ class AdminController {
         order: [["id", "ASC"]],
       });
       res.render("admin/user/list.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
+  static async listPemesanan(req, res) {
+    try {
+      let data = await pemesanan_gedung.findAll({
+        attributes: [
+          "id",
+          "kode_transaksi",
+          "nama_gedung",
+          "nomor_hp",
+          "sewaTgl",
+          "sewaJam",
+          "sewaWaktu",
+          "total_harga",
+          "img",
+          "nama_pemesan",
+          "no_ktp",
+          "typeBayar",
+          "status",
+        ],
+        order: [["id", "ASC"]],
+      });
+      return res.render("admin/pemesanan/list.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
+  static async editPemesananView(req, res) {
+    try {
+      const id = Number(req.params.id);
+
+      console.log(`MY ID = ${id}`);
+
+      let data = await pemesanan_gedung.findOne({
+        where: { id: id },
+        attributes: [
+          "id",
+          "usersId",
+          "kode_transaksi",
+          "nama_gedung",
+          "sewaTgl",
+          "sewaJam",
+          "sewaWaktu",
+          "total_harga",
+          "typeBayar",
+          "status",
+          "img",
+          "bank",
+        ],
+      });
+
+      // return res.json(data);
+
+      return res.render("admin/pemesanan/edit.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
+  static async editPemesanan(req, res) {
+    try {
+      const id = Number(req.params.id);
+
+      const { status } = req.body;
+
+      const myData = {
+        status,
+      };
+
+      await pemesanan_gedung
+        .update(myData, { where: { id: id } })
+        .then((_) => {
+          return res.redirect(`/admin/pemesanan`);
+        })
+        .catch((err) => res.json(err));
+
+      return res.render("admin/pemesanan/edit.ejs", { result: data });
+    } catch (error) {}
+  }
+
+  static async hapusPesanan(req, res) {
+    try {
+      const id = Number(req.params.id);
+
+      await pemesanan_gedung.destroy({
+        where: {
+          id: id,
+        },
+      });
+
+      return res.redirect("/admin/pemesanan");
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
+  static async hapusUser(req, res) {
+    try {
+      const id = Number(req.params.id);
+
+      await users.destroy({
+        where: {
+          id: id,
+        },
+      });
+
+      return res.redirect("/admin/users");
     } catch (error) {
       res.json(error);
     }

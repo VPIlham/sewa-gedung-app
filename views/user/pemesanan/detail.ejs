@@ -1,0 +1,64 @@
+<%- include('../../navbar_user') %>
+
+<div class="row justify-content-center mt-5">
+  <div class="col-md-5">
+    <div class="card p-5">
+      <h3>Form Pembayaran</h3>
+      <br />
+      <label for="">Kode Transaksi : <%= result.kode_transaksi %> </label>
+      <br />
+      <label for="">Nama Gedung : <%= result.nama_gedung %> </label>
+      <br />
+      <label for=""
+        >Tgl Pemesan : <%= result.sewaTgl %>, <%= result.sewaJam %> : <%=
+        result.sewaWaktu %>
+      </label>
+      <br />
+      <label class="text-capitalize"
+        >Tipe Pembayaran : <%= result.typeBayar %></label
+      >
+      <br />
+      <label class="text-capitalize"
+        >Total Harga : Rp<%= result.total_harga %></label
+      >
+      <br />
+      <label class="text-capitalize">Status : <%= result.status %></label>
+      <br />
+      <hr />
+      <br />
+      <h5>
+        Pembayaran Melalui Bank BNI <br />
+        dengan nomor rekening 3319384322 atas Nama PT Sewa Gedung
+      </h5>
+      <br />
+      <form
+        action="/pemesanan/<%= result.id %>/bayar"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input type="hidden" name="usersId" value="<%= result.usersId %>" />
+        <label for="">Bank :</label>
+        <select name="bank" id="">
+          <option value="BCA">BCA</option>
+          <option value="BRI">BRI</option>
+          <option value="BNI">BNI</option>
+          <option value="MANDIRI">Mandiri</option>
+        </select>
+        <br />
+        <label for="" class="mt-2">bukti pembayaran</label>
+        <br />
+        <input type="file" accept="image/*" name="img" class="mt-2" />
+        <br />
+
+        <input type="submit" value="Kirim" class="btn btn-success mt-3 w-100" />
+        <br />
+      </form>
+
+      <a
+        href="/pemesanan?usersId=<%= result.usersId %>"
+        class="btn btn-primary w-100 mt-3"
+        >Kembali</a
+      >
+    </div>
+  </div>
+</div>

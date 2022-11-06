@@ -17,6 +17,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      usersId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       kode_transaksi: {
         type: Sequelize.STRING,
       },
