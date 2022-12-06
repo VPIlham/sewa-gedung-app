@@ -197,7 +197,7 @@
             text: "Pemesanan Berhasil dibuat!",
           }).then((result) => {
             if (result.isConfirmed) {
-              return (window.location.href = "/pemesanan/");
+              return (window.location.href = `/pemesanan?usersId=${usersId}`);
             }
           });
         },

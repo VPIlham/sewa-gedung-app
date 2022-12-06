@@ -1,7 +1,7 @@
 const { json } = require("sequelize");
 const { encryptPass, decryptPass } = require("../helpers/bcrypt");
 const { users, gedung, pemesanan, pemesanan_gedung } = require("../models");
-
+const moment = require("moment");
 class LandingController {
   static async home(req, res) {
     try {
@@ -99,10 +99,40 @@ class LandingController {
     }
   }
 
+  static async printDetailPesanan(req, res) {
+    try {
+      const id = +req.params.id;
+
+      let data = await pemesanan_gedung.findOne({
+        attributes: [
+          "id",
+          "usersId",
+          "kode_transaksi",
+          "nama_gedung",
+          "sewaTgl",
+          "sewaJam",
+          "sewaWaktu",
+          "total_harga",
+          "typeBayar",
+          "status",
+          "img",
+          "bank",
+        ],
+        order: [["id", "ASC"]],
+        where: { id: id },
+      });
+
+      moment.locale("id");
+      return res.render("user/pemesanan/print.ejs", {
+        result: data,
+        moment: moment,
+      });
+    } catch {}
+  }
+
   static async listPesanan(req, res) {
     try {
       const id = +req.query.usersId;
-
       let data = await pemesanan_gedung.findAll({
         attributes: [
           "id",
@@ -119,7 +149,9 @@ class LandingController {
         order: [["id", "ASC"]],
         where: { usersId: id },
       });
-      return res.render("user/transaksi/list_transaksi.ejs", { result: data });
+      return res.render("user/pemesanan/list_transaksi.ejs", {
+        result: data,
+      });
     } catch (error) {
       res.json(error);
     }
@@ -148,7 +180,7 @@ class LandingController {
         where: { id: id },
       });
       // return res.json(data);
-      return res.render("user/transaksi/detail.ejs", { result: data });
+      return res.render("user/pemesanan/detail.ejs", { result: data });
     } catch (error) {
       res.json(error);
     }

@@ -3,11 +3,13 @@ const route = require("express").Router();
 const LandingController = require("../controllers/LandingController");
 const multerMiddleware = require("../helpers/mutler");
 
+route.get("/", LandingController.home);
 route.get("/home", LandingController.home);
 route.get("/register", LandingController.register);
 route.get("/login", LandingController.loginView);
 
 //pemesanan
+route.get("/pemesanan/print/:id", LandingController.printDetailPesanan);
 route.post("/pemesanan/create", LandingController.addPesanan);
 route.get("/pemesanan/", LandingController.listPesanan);
 route.get("/pemesanan/:id", LandingController.DetailPesanan);

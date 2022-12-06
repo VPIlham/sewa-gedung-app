@@ -1,0 +1,75 @@
+<div class="row justify-content-center mt-5">
+  <div class="col-md-8">
+    <div class="header">
+      <div class="row">
+        <div class="col-md-3">
+          <center>
+            <img src="/img/logo.png" alt="" srcset="" width="100" />
+          </center>
+        </div>
+        <div class="col-md-9">
+          <h3>Balai Makarti</h3>
+          Jl. TMP. Kalibata No.17, RT.6/RW.7, Rawajati, Kec. Pancoran, Kota
+          Jakarta Selatan, Daerah Khusus Ibukota Jakarta
+        </div>
+      </div>
+    </div>
+    <table class="table" id="mytable">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Nama</th>
+          <th scope="col">Harga</th>
+          <th scope="col">Gambar</th>
+          <th scope="col">Kota</th>
+          <th scope="col">Jam</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% result.forEach((gedung, i) => { %>
+        <tr>
+          <th scope="row"><%= i + 1 %></th>
+          <td class="text-capitalize"><%= gedung.name %></td>
+          <td class="text-lowercase"><%= gedung.harga %></td>
+          <td class="text-capitalize">
+            <img
+              src="/<%= gedung.img %>"
+              alt=""
+              style="width: 70px; height: 70px; object-fit: cover"
+            />
+          </td>
+          <td class="text-uppercase"><%= gedung.kota %></td>
+          <td class="text-capitalize">
+            Siang : <%= gedung.jam_siang %> - <%= gedung.jam_siang_akhir %>
+            <br />
+            Malam : <%= gedung.jam_malam %> - <%= gedung.jam_malam_akhir %>
+          </td>
+          <td class="text-capitalize"><%= gedung.status %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <br />
+    <div style="float: right">
+      <label for=""
+        >Jakarta, <%= moment().format('dddd DD MMMM YYYY'); %> %></label
+      >
+      <br />
+      <center>
+        <label>Admin</label>
+      </center>
+      <br />
+      <br />
+      <br />
+      <br />
+      <center>
+        <label> Allan Ferdhian</label>
+      </center>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.print();
+</script>

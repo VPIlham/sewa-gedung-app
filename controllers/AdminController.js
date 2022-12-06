@@ -1,9 +1,30 @@
 const { users, gedung, pemesanan_gedung } = require("../models");
-const fs = require("fs");
+const moment = require("moment");
+moment.locale("id");
 class AdminController {
   static async home(req, res) {
     try {
-      res.render("admin/home.ejs");
+      // let user = await users.findAll({
+      //   order: [["id", "ASC"]],
+      // });
+      let pemesanan = await pemesanan_gedung.findAll({
+        order: [["id", "ASC"]],
+      });
+      let gedungs = await gedung.findAll({
+        order: [["id", "ASC"]],
+      });
+
+      let user = await users.findAll({
+        order: [["id", "ASC"]],
+      });
+
+      const data = {
+        user: user.length,
+        gedung: gedungs.length,
+        pemesanan: pemesanan.length,
+      };
+
+      res.render("admin/home.ejs", { result: data });
     } catch (error) {
       res.json(error);
     }
@@ -15,6 +36,17 @@ class AdminController {
         order: [["id", "ASC"]],
       });
       res.render("admin/user/list.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
+  static async printUser(req, res) {
+    try {
+      let data = await users.findAll({
+        order: [["id", "ASC"]],
+      });
+      res.render("admin/user/cetak.ejs", { result: data, moment: moment });
     } catch (error) {
       res.json(error);
     }
@@ -41,6 +73,66 @@ class AdminController {
         order: [["id", "ASC"]],
       });
       return res.render("admin/pemesanan/list.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+  static async printPemesanan(req, res) {
+    try {
+      let data = await pemesanan_gedung.findAll({
+        attributes: [
+          "id",
+          "kode_transaksi",
+          "nama_gedung",
+          "nomor_hp",
+          "sewaTgl",
+          "sewaJam",
+          "sewaWaktu",
+          "total_harga",
+          "img",
+          "nama_pemesan",
+          "no_ktp",
+          "typeBayar",
+          "status",
+        ],
+        order: [["id", "ASC"]],
+      });
+      return res.render("admin/pemesanan/cetak.ejs", {
+        result: data,
+        moment: moment,
+      });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+  static async printPemesananDetail(req, res) {
+    try {
+      const id = Number(req.params.id);
+      let data = await pemesanan_gedung.findOne({
+        attributes: [
+          "id",
+          "kode_transaksi",
+          "nama_gedung",
+          "nomor_hp",
+          "sewaTgl",
+          "sewaJam",
+          "sewaWaktu",
+          "total_harga",
+          "img",
+          "nama_pemesan",
+          "no_ktp",
+          "typeBayar",
+          "status",
+        ],
+        order: [["id", "ASC"]],
+        where: {
+          id: id,
+        },
+      });
+      return res.render("admin/pemesanan/cetak-detail.ejs", {
+        result: data,
+        moment: moment,
+      });
     } catch (error) {
       res.json(error);
     }
@@ -163,6 +255,20 @@ class AdminController {
 
       // res.json(data);
       return res.render("admin/gedung/list.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+  static async printGedung(req, res) {
+    try {
+      let data = await gedung.findAll({
+        order: [["id", "ASC"]],
+      });
+
+      return res.render("admin/gedung/cetak.ejs", {
+        result: data,
+        moment: moment,
+      });
     } catch (error) {
       res.json(error);
     }

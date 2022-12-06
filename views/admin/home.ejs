@@ -1,5 +1,25 @@
 <%- include('../navbar_admin') %>
 
 <div class="row justify-content-center mt-5">
-  <div class="col-md-6">Dashboard Admin</div>
+  <div class="col-md-12">Dashboard Admin</div>
+  <br />
+  <br />
+  <div class="col-md-3">
+    <div class="card p-4">
+      <h4>Total User :</h4>
+      <h5><%= result.user %></h5>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-4">
+      <h4>Total Pemesanan :</h4>
+      <h5><%= result.pemesanan %></h5>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-4">
+      <h4>Total Gedung :</h4>
+      <h5><%= result.gedung %></h5>
+    </div>
+  </div>
 </div>

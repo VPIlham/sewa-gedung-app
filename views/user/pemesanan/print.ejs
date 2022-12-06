@@ -1,0 +1,63 @@
+<div class="row justify-content-center mt-5">
+  <div class="col-md-8">
+    <div class="header row">
+      <div class="col-md-3">
+        <center>
+          <img src="/img/logo.png" alt="" srcset="" width="100" />
+        </center>
+      </div>
+      <div class="col">
+        <h3>Balai Makarti</h3>
+        Jl. TMP. Kalibata No.17, RT.6/RW.7, Rawajati, Kec. Pancoran, Kota
+        Jakarta Selatan, Daerah Khusus Ibukota Jakarta
+      </div>
+    </div>
+    <table class="table" id="mytable">
+      <thead>
+        <tr>
+          <th scope="col">Kode Transaksi</th>
+          <th scope="col">Nama Gedung</th>
+          <th scope="col">Sewa Tgl</th>
+          <th scope="col">Sewa Jam</th>
+          <th scope="col">Tipe Pembayaran</th>
+          <th scope="col">Total Pembayaran</th>
+          <th scope="col">Status Pembayaran</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-capitalize"><%= result.kode_transaksi %></td>
+          <td><%= result.nama_gedung%></td>
+          <td><%= moment(result.sewaTgl).format("dddd, DD MMMM YYYY")%></td>
+          <td class="text-capitalize">
+            <%= result.sewaJam %> : <%= result.sewaWaktu %>
+          </td>
+          <td class="text-capitalize"><%= result.typeBayar %></td>
+          <td class="text-capitalize">Rp<%= result.total_harga %></td>
+          <td class="text-capitalize"><%= result.status %></td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <div style="float: right">
+      <label for=""
+        >Jakarta, <%= moment().format('dddd DD MMMM YYYY'); %> %></label
+      >
+      <br />
+      <center>
+        <label>Admin</label>
+      </center>
+      <br />
+      <br />
+      <br />
+      <br />
+      <center>
+        <label> Allan Ferdhian</label>
+      </center>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.print();
+</script>
