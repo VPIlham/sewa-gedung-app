@@ -6,13 +6,15 @@
       <h3>Form Pembayaran</h3>
       <a href="/pemesanan/print/<%= result.id %>">Cetak Pembayaran</a>
       <br />
-      <label for="">Kode Transaksi : <%= result.kode_transaksi %> </label>
+      <label for=""
+        >Kode Transaksi : <b><%= result.kode_transaksi %></b>
+      </label>
       <br />
       <label for="">Nama Gedung : <%= result.nama_gedung %> </label>
       <br />
       <label for=""
-        >Tgl Pemesan : <%= result.sewaTgl %>, <%= result.sewaJam %> : <%=
-        result.sewaWaktu %>
+        >Tgl Pemesan : <%= moment(result.sewaTgl).format("dddd, DD MMMM YYYY")
+        %> , <%= result.sewaJam %> : <%= result.sewaWaktu %>
       </label>
       <br />
       <label class="text-capitalize"
@@ -23,13 +25,15 @@
         >Total Harga : Rp<%= result.total_harga %></label
       >
       <br />
-      <label class="text-capitalize">Status : <%= result.status %></label>
+      <label class="text-capitalize"
+        >Status : <b><%= result.status %></b>
+      </label>
       <br />
       <hr />
       <br />
       <h5>
         Pembayaran Melalui Bank BNI <br />
-        dengan nomor rekening 3319384322 atas Nama PT Sewa Gedung
+        dengan nomor rekening 3319384322 atas Nama PT Balai Makarti
       </h5>
       <br />
       <form

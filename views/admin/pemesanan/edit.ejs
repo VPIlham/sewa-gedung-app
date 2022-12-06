@@ -4,14 +4,17 @@
   <div class="col-md-5">
     <div class="card p-5">
       <h3>Detail pemesanan</h3>
+      <a href="/admin/pemesanan/print-detail/<%= result.id %>">Cetak PDF</a>
       <br />
-      <label for="">Kode Transaksi : <%= result.kode_transaksi %> </label>
+      <label for=""
+        >Kode Transaksi : <b><%= result.kode_transaksi %></b>
+      </label>
       <br />
       <label for="">Nama Gedung : <%= result.nama_gedung %> </label>
       <br />
       <label for=""
-        >Tgl Pemesan : <%= result.sewaTgl %>, <%= result.sewaJam %> : <%=
-        result.sewaWaktu %>
+        >Tgl Pemesan : <%= moment(result.sewaTgl).format("dddd, DD MMMM YYYY")
+        %>, <%= result.sewaJam %> : <%= result.sewaWaktu %>
       </label>
       <br />
       <label class="text-capitalize"
@@ -29,7 +32,9 @@
         <img src="/<%= result.img %>" alt="" srcset="" style="width: 30%"
       /></label>
       <br />
-      <label class="text-capitalize">Status : <%= result.status %></label>
+      <label class="text-capitalize"
+        >Status : <b><%= result.status %></b>
+      </label>
       <br />
       <hr />
 

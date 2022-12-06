@@ -4,9 +4,6 @@ moment.locale("id");
 class AdminController {
   static async home(req, res) {
     try {
-      // let user = await users.findAll({
-      //   order: [["id", "ASC"]],
-      // });
       let pemesanan = await pemesanan_gedung.findAll({
         order: [["id", "ASC"]],
       });
@@ -164,7 +161,10 @@ class AdminController {
 
       // return res.json(data);
 
-      return res.render("admin/pemesanan/edit.ejs", { result: data });
+      return res.render("admin/pemesanan/edit.ejs", {
+        result: data,
+        moment: moment,
+      });
     } catch (error) {
       res.json(error);
     }

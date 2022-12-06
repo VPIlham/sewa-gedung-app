@@ -24,12 +24,14 @@
           <td class="text-capitalize"><%= pesanan.kode_transaksi %></td>
           <td><%= pesanan.nama_gedung%></td>
           <td class="text-capitalize"><%= pesanan.nomor_hp %></td>
-          <td><%= new Date(pesanan.sewaTgl).toLocaleDateString("id") %></td>
+          <td>
+            <%= moment(pesanan.sewaTgl).format("dddd, DD MMMM YYYY") %></td>
+          </td>
           <td class="text-capitalize">
             <%= pesanan.sewaJam %> : <%= pesanan.sewaWaktu %>
           </td>
           <td class="text-capitalize"><%= pesanan.typeBayar %></td>
-          <td class="text-capitalize"><%= pesanan.total_harga %></td>
+          <td class="text-capitalize">Rp<%= pesanan.total_harga %></td>
           <td class="text-capitalize"><%= pesanan.status %></td>
           <td>
             <a

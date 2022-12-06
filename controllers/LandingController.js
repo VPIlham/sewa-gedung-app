@@ -2,6 +2,7 @@ const { json } = require("sequelize");
 const { encryptPass, decryptPass } = require("../helpers/bcrypt");
 const { users, gedung, pemesanan, pemesanan_gedung } = require("../models");
 const moment = require("moment");
+moment.locale("id");
 class LandingController {
   static async home(req, res) {
     try {
@@ -122,7 +123,6 @@ class LandingController {
         where: { id: id },
       });
 
-      moment.locale("id");
       return res.render("user/pemesanan/print.ejs", {
         result: data,
         moment: moment,
@@ -151,6 +151,7 @@ class LandingController {
       });
       return res.render("user/pemesanan/list_transaksi.ejs", {
         result: data,
+        moment: moment,
       });
     } catch (error) {
       res.json(error);
@@ -180,7 +181,10 @@ class LandingController {
         where: { id: id },
       });
       // return res.json(data);
-      return res.render("user/pemesanan/detail.ejs", { result: data });
+      return res.render("user/pemesanan/detail.ejs", {
+        result: data,
+        moment: moment,
+      });
     } catch (error) {
       res.json(error);
     }
