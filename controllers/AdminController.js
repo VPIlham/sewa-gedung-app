@@ -38,6 +38,55 @@ class AdminController {
     }
   }
 
+  static async editUserView(req, res) {
+    try {
+      const id = Number(req.params.id);
+
+      console.log(`MY ID = ${id}`);
+
+      let data = await users.findOne({
+        where: { id: id },
+        attributes: ["id", "name", "email", "nomor_hp", "alamat"],
+      });
+
+      // return res.json(data);
+
+      return res.render("admin/user/edit.ejs", {
+        result: data,
+        moment: moment,
+      });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
+  static async updateUser(req, res) {
+    try {
+      const id = Number(req.params.id);
+
+      console.log(`MY ID = ${id}`);
+
+      const { email, alamat, name, nomor_hp } = req.body;
+
+      const myData = {
+        email,
+        alamat,
+        name,
+        nomor_hp,
+      };
+      console.log(myData);
+      await users
+        .update(myData, { where: { id: id } })
+        .then((res) => {
+          console.log(res);
+          return res.redirect(`/admin/users`);
+        })
+        .catch((err) => res.json(err));
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
   static async printUser(req, res) {
     try {
       let data = await users.findAll({
@@ -226,14 +275,6 @@ class AdminController {
   static async tambahUserView(req, res) {
     try {
       res.render("admin/user/create.ejs");
-    } catch (error) {
-      res.json(error);
-    }
-  }
-
-  static async editUserView(req, res) {
-    try {
-      res.render("admin/user/edit.ejs");
     } catch (error) {
       res.json(error);
     }

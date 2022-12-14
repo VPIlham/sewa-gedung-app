@@ -10,6 +10,7 @@ route.get("/users/", AdminController.listUser);
 route.get("/users/print", AdminController.printUser);
 route.get("/users/tambah", AdminController.tambahUserView);
 route.get("/users/edit/:id", AdminController.editUserView);
+route.post("/users/edit/:id", AdminController.updateUser);
 route.get("/users/hapus/:id", AdminController.hapusUser);
 
 //ROUTES GEDUNG
