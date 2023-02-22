@@ -123,6 +123,67 @@ class AdminController {
       res.json(error);
     }
   }
+
+  static async listPemesananSelesai(req, res) {
+    try {
+      let data = await pemesanan_gedung.findAll({
+        attributes: [
+          "id",
+          "kode_transaksi",
+          "nama_gedung",
+          "nomor_hp",
+          "sewaTgl",
+          "sewaJam",
+          "sewaWaktu",
+          "total_harga",
+          "img",
+          "nama_pemesan",
+          "no_ktp",
+          "typeBayar",
+          "status",
+        ],
+        order: [["id", "ASC"]],
+        where: {
+          status: "selesai",
+        },
+      });
+      return res.render("admin/pemesanan/list_selesai.ejs", { result: data });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+  static async printPemesananSelesai(req, res) {
+    try {
+      let data = await pemesanan_gedung.findAll({
+        attributes: [
+          "id",
+          "kode_transaksi",
+          "nama_gedung",
+          "nomor_hp",
+          "sewaTgl",
+          "sewaJam",
+          "sewaWaktu",
+          "total_harga",
+          "img",
+          "nama_pemesan",
+          "no_ktp",
+          "typeBayar",
+          "status",
+        ],
+        order: [["id", "ASC"]],
+        where: {
+          status: "selesai",
+        },
+      });
+      return res.render("admin/pemesanan/cetak_selesai.ejs", {
+        result: data,
+        moment: moment,
+      });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
   static async printPemesanan(req, res) {
     try {
       let data = await pemesanan_gedung.findAll({

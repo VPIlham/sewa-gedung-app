@@ -2,9 +2,8 @@
 
 <div class="row justify-content-center mt-5">
   <div class="col-md-9">
-    <a href="/admin/pemesanan/print" class="btn btn-warning">Cetak PDF</a>
-    <a href="/admin/pemesanan-selesai/print" class="btn btn-success"
-      >Filter Pemesanan Selesai</a
+    <a href="/admin/pemesanan-selesai/print" class="btn btn-warning"
+      >Cetak PDF Pemesanan Selesai</a
     >
     <table class="table table-striped table-hover" id="mytable">
       <thead>
@@ -18,7 +17,7 @@
           <th scope="col">Nama Gedung</th>
           <th scope="col">Tgl Sewa</th>
           <th scope="col">Status</th>
-          <th scope="col">Aksi</th>
+          <!-- <th scope="col">Aksi</th> -->
         </tr>
       </thead>
       <tbody>
@@ -42,7 +41,7 @@
             pesanan.sewaJam %> : <%= pesanan.sewaWaktu %>
           </td>
           <td class="text-capitalize"><%= pesanan.status %></td>
-          <td>
+          <!-- <td>
             <a
               href="/admin/pemesanan/edit/<%= pesanan.id %>"
               class="badge text-bg-primary text-decoration-none"
@@ -59,7 +58,7 @@
               class="badge text-bg-warning text-decoration-none"
               >Print</a
             >
-          </td>
+          </td> -->
         </tr>
         <% }) %>
       </tbody>

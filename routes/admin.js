@@ -22,6 +22,8 @@ route.get("/gedung/hapus/:id", AdminController.hapusGedung);
 
 //Routes pemesanan
 route.get("/pemesanan", AdminController.listPemesanan);
+route.get("/pemesanan-selesai", AdminController.listPemesananSelesai);
+route.get("/pemesanan-selesai/print", AdminController.printPemesananSelesai);
 route.get("/pemesanan/print", AdminController.printPemesanan);
 route.get("/pemesanan/print-detail/:id", AdminController.printPemesananDetail);
 route.get("/pemesanan/edit/:id", AdminController.editPemesananView);
